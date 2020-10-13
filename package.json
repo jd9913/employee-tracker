@@ -1,0 +1,37 @@
+{
+  "name": "employee-tracker",
+  "version": "1.0.0",
+  "description": "module 12 challenge sql employee tracker with command line interface",
+  "main": "index.js",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "express": "^4.17.1",
+    "inquirer": "^7.3.3",
+    "mysql2": "^2.2.5",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {
+    "jest": "^26.5.3"
+  },
+  "scripts": {
+    "test": "jest",
+    "migrate": "sqlite3 db/election.db < db/schema.sql",
+    "seed": "sqlite3 db/election.db < db/seeds.sql",
+    "db": "sqlite3 db/election.db",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jd9913/employee-tracker.git"
+  },
+  "keywords": [
+    "database",
+    "sql"
+  ],
+  "author": "jd9913",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jd9913/employee-tracker/issues"
+  },
+  "homepage": "https://github.com/jd9913/employee-tracker#readme"
+}
