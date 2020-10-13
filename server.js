@@ -1,4 +1,5 @@
 const sqlite3 = require('sqlite3').verbose();
+const inputCheck = require('./utils/inputCheck');
 
 const express=require('express');
 
@@ -35,17 +36,6 @@ app.get('/api/department', (req, res) => {
 
 
 
-// Create a department
-const sql = `INSERT INTO department (id, dept_name) 
-              VALUES (?,?)`;
-const params = [20, 'planning'];
-// ES5 function, not arrow function, to use this
-db.run(sql, params, function(err, result) {
-  if (err) {
-    console.log(err);
-  }
-  console.log(result, this.lastID);
-});
 
 
 // GET a single department
@@ -83,6 +73,31 @@ app.delete('/api/department/:id', (req, res) => {
     });
   });
 
+  
+// Create a department
+app.post('/api/department', ({ body }, res) => {
+    const errors = inputCheck(body, 'dept_name');
+    if (errors) {
+      res.status(400).json({ error: errors });
+      return;
+    }
+    const sql = `INSERT INTO department (dept_name) 
+              VALUES (?)`;
+const params = [body.dept_name];
+// ES5 function, not arrow function, to use `this`
+db.run(sql, params, function(err, result) {
+  if (err) {
+    res.status(400).json({ error: err.message });
+    return;
+  }
+
+  res.json({
+    message: 'success',
+    data: body,
+    id: this.lastID
+  });
+});
+  });
 
 
 
