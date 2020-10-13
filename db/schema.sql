@@ -1,13 +1,14 @@
 CREATE TABLE department (
 id INTEGER PRIMARY KEY,
 dept_name VARCHAR(30) NOT NULL
+
 );
 
 CREATE TABLE role (
     id INTEGER PRIMARY KEY,
     role_title VARCHAR(30) NOT NULL,
     salary DECIMAL NOT NULL,
-    department_id INTEGER department_id
+    description TEXT
 );
 
 CREATE TABLE employee (
