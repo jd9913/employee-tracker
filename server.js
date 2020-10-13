@@ -35,11 +35,7 @@ app.get('/api/department', (req, res) => {
 
 
 
-
-
-
-
-// Create a candidate
+// Create a department
 const sql = `INSERT INTO department (id, dept_name) 
               VALUES (?,?)`;
 const params = [20, 'planning'];
@@ -50,16 +46,6 @@ db.run(sql, params, function(err, result) {
   }
   console.log(result, this.lastID);
 });
-
-
-
-// // Delete a candidate
-// db.run(`DELETE FROM department WHERE id = ?`, 1, function(err, result) {
-//   if (err) {
-//     console.log(err);
-//   }
-//   console.log(result, this, this.changes);
-// });
 
 
 // GET a single department
@@ -76,6 +62,23 @@ app.get('/api/department/:id', (req, res) => {
       res.json({
         message: 'success',
         data: row
+      });
+    });
+  });
+
+  // Delete a department
+app.delete('/api/department/:id', (req, res) => {
+    const sql = `DELETE FROM department WHERE id = ?`;
+    const params = [req.params.id];
+    db.run(sql, params, function(err, result) {
+      if (err) {
+        res.status(400).json({ error: res.message });
+        return;
+      }
+  
+      res.json({
+        message: 'successfully deleted',
+        changes: this.changes
       });
     });
   });
