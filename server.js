@@ -16,43 +16,72 @@ const db = new sqlite3.Database('./db/tracker.db', err => {
     console.log('Connected to the employee tracking database.');
   });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Get all departments
+app.get('/api/department', (req, res) => {
+    const sql = `SELECT * FROM department`;
+    const params = [];
+    db.all(sql, params, (err, rows) => {
+      if (err) {
+        res.status(500).json({ error: err.message });
+        return;
+      }
   
+      res.json({
+        message: 'success',
+        data: rows
+      });
+    });
+  });
 
 
-// Delete a candidate
-db.run(`DELETE FROM department WHERE id = ?`, 1, function(err, result) {
+
+
+
+
+
+// Create a candidate
+const sql = `INSERT INTO department (id, dept_name) 
+              VALUES (?,?)`;
+const params = [20, 'planning'];
+// ES5 function, not arrow function, to use this
+db.run(sql, params, function(err, result) {
   if (err) {
     console.log(err);
   }
-  console.log(result, this, this.changes);
+  console.log(result, this.lastID);
 });
 
 
-// // GET a single department
-// db.get(`SELECT * FROM department WHERE id = 1`, (err, row) => {
-//     if(err) {
-//       console.log(err);
-//     }
-//     console.log(row);
-//   });
+
+// // Delete a candidate
+// db.run(`DELETE FROM department WHERE id = ?`, 1, function(err, result) {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log(result, this, this.changes);
+// });
 
 
-//   db.all(`SELECT * FROM department`, (err, rows) => {
-//     console.log(rows);
-//   });
+// GET a single department
+app.get('/api/department/:id', (req, res) => {
+    const sql = `SELECT * FROM department 
+                 WHERE id = ?`;
+    const params = [req.params.id];
+    db.get(sql, params, (err, row) => {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+  
+      res.json({
+        message: 'success',
+        data: row
+      });
+    });
+  });
+
+
+
 
 // Default response for any other requests(Not Found) Catch all
 app.use((req, res) => {
