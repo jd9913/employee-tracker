@@ -19,10 +19,7 @@ const db = new sqlite3.Database('./db/tracker.db', err => {
 
 // Get all departments
 app.get('/api/department', (req, res) => {
-  const sql = `SELECT roles.*, departments.dept_name
-     AS dept_name FROM roles
-     LEFT JOIN departments
-      ON roles.department_id = departments.id`;
+  const sql = `SELECT * FROM departments`;
   const params = [];
   db.all(sql, params, (err, rows) => {
     if (err) {
@@ -37,9 +34,70 @@ app.get('/api/department', (req, res) => {
   });
 });
 
+//get all roles with department name
 
+app.get('/api/role', (req, res) => {
+  const sql = `SELECT roles.*, departments.dept_name
+  AS dept_name FROM roles
+  LEFT JOIN departments
+   ON roles.department_id = departments.id`;
+  const params = [];
+  db.all(sql, params, (err, rows) => {
+    if (err) {
+      res.status(500).json({ error: err.message });
+      return;
+    }
 
+    res.json({
+      message: 'success',
+      data: rows
+    });
+  });
+});
 
+//get a single role by id
+
+app.get('/api/role/:id', (req, res) => {
+  const sql = `SELECT * FROM roles WHERE id = ?`;
+  const params = [req.params.id];
+  db.get(sql, params, (err, row) => {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      message: 'success',
+      data: row
+    });
+  });
+});
+
+//update role
+app.put('/api/role/:id', (req, res) => {
+  const errors = inputCheck(req.body, 'department_id');
+
+  if (errors) {
+    res.status(400).json({ error: errors });
+    return;
+  }
+  const sql = `UPDATE roles SET department_id = ? 
+               WHERE id = ?`;
+  const params = [req.body.role_id, req.params.id];
+
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: err.message });
+      return;
+    }
+
+    res.json({
+      message: 'success',
+      data: req.body,
+      changes: this.changes
+    });
+  });
+});
 
 // GET a single department
 app.get('/api/department/:id', (req, res) => {
@@ -64,7 +122,7 @@ app.get('/api/department/:id', (req, res) => {
 
 // Delete a department
 app.delete('/api/department/:id', (req, res) => {
-  const sql = `DELETE FROM department WHERE id = ?`;
+  const sql = `DELETE FROM departments WHERE id = ?`;
   const params = [req.params.id];
   db.run(sql, params, function (err, result) {
     if (err) {
@@ -79,6 +137,19 @@ app.delete('/api/department/:id', (req, res) => {
   });
 });
 
+//delete a role
+app.delete('/api/roles/:id', (req, res) => {
+  const sql = `DELETE FROM roles WHERE id = ?`;
+  const params = [req.params.id];
+  db.run(sql, params, function (err, result) {
+    if (err) {
+      res.status(400).json({ error: res.message });
+      return;
+    }
+
+    res.json({ message: 'successfully deleted', changes: this.changes });
+  });
+});
 
 // Create a department
 app.post('/api/department', ({ body }, res) => {
@@ -87,7 +158,7 @@ app.post('/api/department', ({ body }, res) => {
     res.status(400).json({ error: errors });
     return;
   }
-  const sql = `INSERT INTO department (dept_name) 
+  const sql = `INSERT INTO departments (dept_name) 
               VALUES (?)`;
   const params = [body.dept_name];
   // ES5 function, not arrow function, to use `this`
