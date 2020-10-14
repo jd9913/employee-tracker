@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS roles;
 DROP TABLE IF EXISTS departments;
 DROP TABLE IF EXISTS employees;
 DROP TABLE IF EXISTS managers;
+DROP TABLE IF EXISTS salary;
 
 
 CREATE TABLE departments (
@@ -21,6 +22,7 @@ CREATE TABLE roles (
 CREATE TABLE managers (
     id INTEGER PRIMARY KEY,
     role_id INTEGER UNSIGNED,
+    employee_id INTEGER UNSIGNED,
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES  roles(id) ON DELETE SET NULL
    
 );
@@ -36,4 +38,13 @@ CREATE TABLE employees (
     CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES roles(id) ON DELETE SET NULL
 
     
+);
+
+CREATE TABLE salary(
+    id INTEGER PRIMARY KEY,
+    employee_id INTEGER UNSIGNED NOT NULL,
+    salary_id INTEGER UNSIGNED NOT NULL
+    CONSTRAINT uc_employee UNIQUE (employee_id),
+    CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES employees(id) ON DELETE CASCADE,
+    CONSTRAINT fk_salary FOREIGN KEY (salary_id)REFERENCES roles(id) ON DELETE NULL
 );
