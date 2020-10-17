@@ -52,7 +52,6 @@ router.post('/employee', ({ body }, res) => {
         return;
     }
 
-
     const sql = `INSERT INTO employees (first_name, last_name) VALUES (?,?)`;
     const params = [body.first_name, body.last_name];
 
@@ -68,7 +67,9 @@ router.post('/employee', ({ body }, res) => {
             id: this.lastID
         });
     });
+    
 });
+
 
 //update employee last_name
 router.put('/employee/:id', (req, res) => {
@@ -82,6 +83,36 @@ router.put('/employee/:id', (req, res) => {
     // Prepare statement
     const sql = `UPDATE employees SET last_name = ? WHERE id = ?`;
     const params = [req.body.last_name, req.params.id];
+  
+    // Execute
+    db.run(sql, params, function(err, data) {
+      if (err) {
+        res.status(400).json({ error: err.message });
+        return;
+      }
+  
+      res.json({
+        message: 'success',
+        data: req.body,
+        changes: this.changes
+      });
+    });
+  });
+
+
+  //update employee first name
+
+  router.put('/employee/:id', (req, res) => {
+    // Data validation
+    const errors = inputCheck(req.body, 'email');
+    if (errors) {
+      res.status(400).json({ error: errors });
+      return;
+    }
+  
+    // Prepare statement
+    const sql = `UPDATE employees SET first_name = ? WHERE id = ?`;
+    const params = [req.body.first_name, req.params.id];
   
     // Execute
     db.run(sql, params, function(err, data) {
