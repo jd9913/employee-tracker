@@ -1,6 +1,8 @@
 const inquirer = require('inquirer');
 const express = require('express');
 const router = express.Router();
+const fs=require('fs');
+
 
 const db = require('../../db/database');
 const inputCheck = require('../../utils/inputCheck');
@@ -26,16 +28,29 @@ const startScreen =()=>{
             case 'view all employees by manager':
 
             case 'add employee':
+                addNewEmp()
+                break;
 
             case 'update employee':
+                updateLast();    
+            updatefirst();
+            break;
 
             case 'remove employee':
+                deleteEmp();
+                break;
 
             case 'view all departments':
+                getDepts();
+                break;
 
             case 'add department':
+                createDept();
+                break;
                 
             case 'remove department':
+                deleteDept();
+                break;
             
             case 'update department':
 

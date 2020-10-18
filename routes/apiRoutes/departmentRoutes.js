@@ -5,6 +5,7 @@ const db = require('../../db/database');
 const inputCheck = require('../../utils/inputCheck');
 
 // Get all departments
+function getDepts(){
 router.get('/department', (req, res) => {
     const sql = `SELECT * FROM departments`;
     const params = [];
@@ -20,8 +21,11 @@ router.get('/department', (req, res) => {
       });
     });
   });
+};
 
   // GET a single department
+
+  function getSingleDept(){
 router.get('/department/:id', (req, res) => {
     const sql = `SELECT roles.*, departments.dept_name
     AS dept_name FROM roles
@@ -41,8 +45,10 @@ router.get('/department/:id', (req, res) => {
       });
     });
   });
+};
   
   // Delete a department
+  function deleteDept(){
   router.delete('/department/:id', (req, res) => {
     const sql = `DELETE FROM departments WHERE id = ?`;
     const params = [req.params.id];
@@ -58,8 +64,10 @@ router.get('/department/:id', (req, res) => {
       });
     });
   });
+};
 
   // Create a department
+  function createDept(){
 router.post('/department', ({ body }, res) => {
     const errors = inputCheck(body, 'dept_name');
     if (errors) {
@@ -83,5 +91,6 @@ router.post('/department', ({ body }, res) => {
       });
     });
   });
+};
 
   module.exports=router;

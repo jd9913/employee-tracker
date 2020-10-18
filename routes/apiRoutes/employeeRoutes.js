@@ -25,6 +25,7 @@ router.get('/employee', (req, res) => {
 }
 
 //get single employee
+function getSingleEmp(){
 router.get('/employee/:id', (req, res) => {
     const sql = `SELECT * FROM employees WHERE id = ?`;
     const params = [req.params.id];
@@ -41,10 +42,12 @@ router.get('/employee/:id', (req, res) => {
         });
     });
 });
+};
 
 
 
 //add new employee
+function addNewEmp(){
 router.post('/employee', ({ body }, res) => {
 
     const errors = inputCheck(body, 'first_name', 'last_name');
@@ -71,9 +74,11 @@ router.post('/employee', ({ body }, res) => {
     });
     
 });
+};
 
 
 //update employee last_name
+function updateLast(){
 router.put('/employee/:id', (req, res) => {
     // Data validation
     const errors = inputCheck(req.body, 'email');
@@ -100,10 +105,11 @@ router.put('/employee/:id', (req, res) => {
       });
     });
   });
-
+};
 
   //update employee first name
 
+  function updatefirst(){
   router.put('/employee/:id', (req, res) => {
     // Data validation
     const errors = inputCheck(req.body, 'email');
@@ -130,9 +136,11 @@ router.put('/employee/:id', (req, res) => {
       });
     });
   });
+};
 
 
   //delete employee
+  function deleteEmp(){
   router.delete('/employee/:id', (req, res) => {
     const sql = `DELETE FROM employees WHERE id = ?`;
   
@@ -145,6 +153,7 @@ router.put('/employee/:id', (req, res) => {
       res.json({ message: 'deleted', changes: this.changes });
     });
   });
+};
 
 
 
