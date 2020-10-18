@@ -6,6 +6,7 @@ const inputCheck = require('../../utils/inputCheck');
 
 
 //get all roles with department name
+function getDepart(){
 router.get('/role', (req, res) => {
     const sql = `SELECT roles.*, departments.dept_name
     AS dept_name FROM roles
@@ -24,8 +25,10 @@ router.get('/role', (req, res) => {
       });
     });
   });
+};
   
   //get a single role by id
+  
   
   router.get('/role/:id', (req, res) => {
     const sql = `SELECT * FROM roles WHERE id = ?`;

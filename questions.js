@@ -1,6 +1,11 @@
 const inquirer = require('inquirer');
+const express = require('express');
+const router = express.Router();
 
-const startingquestion=['View all employees', 'View all employees by department', 'view all employees by manager', 'add employee', 'remove employee', 'update employee', 'view all departments', 'add department','remove department', 'update department', 
+const db = require('../../db/database');
+const inputCheck = require('../../utils/inputCheck');
+
+const startingQuestion=['View all employees', 'View all employees by department', 'view all employees by manager', 'add employee', 'remove employee', 'update employee', 'view all departments', 'add department','remove department', 'update department', 
 'view all roles', 'add role', 'update role', 'remove roles', 'view salary information by department', 'quit application'];
 
 const startScreen =()=>{
@@ -9,10 +14,12 @@ const startScreen =()=>{
         name: 'menu',
         type: 'list',
         message: 'select an option',
-        choices: startingquestion
+        choices: startingQuestion
     }).then((answer)=>{
         switch(answer.menu){
             case 'View all employees':
+                getAllEmployees();
+                break;
 
             case 'View all employees by department':
 
@@ -47,3 +54,5 @@ const startScreen =()=>{
         
     })
 }
+
+module.express=router;

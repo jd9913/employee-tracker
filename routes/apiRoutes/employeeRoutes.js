@@ -4,7 +4,7 @@ const router = express.Router();
 const db = require('../../db/database');
 const inputCheck = require('../../utils/inputCheck');
 
-
+function getAllEmployees(){
 //get employees
 router.get('/employee', (req, res) => {
     const sql = `SELECT * FROM employees ORDER BY last_name`;
@@ -22,7 +22,7 @@ router.get('/employee', (req, res) => {
         });
     });
 });
-
+}
 
 //get single employee
 router.get('/employee/:id', (req, res) => {
@@ -41,6 +41,8 @@ router.get('/employee/:id', (req, res) => {
         });
     });
 });
+
+
 
 //add new employee
 router.post('/employee', ({ body }, res) => {
@@ -110,7 +112,7 @@ router.put('/employee/:id', (req, res) => {
       return;
     }
   
-    // Prepare statement
+    // update employee
     const sql = `UPDATE employees SET first_name = ? WHERE id = ?`;
     const params = [req.body.first_name, req.params.id];
   

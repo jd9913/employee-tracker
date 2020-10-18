@@ -15,7 +15,7 @@ values ('Business Development'),
 
 insert into roles (role_title, salary, description, department_id)
  values
- ('Senior Sales Associate', '$36354.50', 'aliquam sit amet diam in magna bibendum imperdiet nullam orci pede venenatis', 10),
+ ('Manager', '$86354.50', 'aliquam sit amet diam in magna bibendum imperdiet nullam orci pede venenatis', 10),
 
 ('Registered Nurse', '$28395.81', 'congue diam id ornare imperdiet sapien urna pretium nisl ut', 6),
 ('Junior Executive', '$77098.51', 'erat id mauris vulputate elementum nullam varius nulla facilisi cras', 7),
@@ -30,7 +30,7 @@ insert into roles (role_title, salary, description, department_id)
 ('VP Accounting', '$62117.25', 'pede ac diam cras pellentesque volutpat dui maecenas tristique est et tempus semper est', 9),
  ('Assistant Manager', '$36769.50', 'quis orci eget orci vehicula condimentum curabitur in libero ut massa volutpat', 9),
  ('Assistant Professor', '$63012.94', 'bibendum morbi non quam nec dui luctus rutrum nulla tellus in', 2),
- ('Marketing Assistant', '$65108.45', 'cursus id turpis integer aliquet massa id lobortis convallis tortor', 5),
+ ('Senior Associate', '$65108.45', 'cursus id turpis integer aliquet massa id lobortis convallis tortor', 5),
  ('Help Desk Operator', '$47877.05', 'suspendisse potenti in eleifend quam a odio in hac habitasse platea dictumst maecenas ut', 5),
  ('Technical Writer', '$49744.33', 'cras mi pede malesuada in imperdiet et commodo vulputate justo', 8),
  ('Database Administrator III', '$19299.44', 'sit amet cursus id turpis integer aliquet massa id lobortis convallis', 6),
@@ -38,10 +38,10 @@ insert into roles (role_title, salary, description, department_id)
  ('Senior Sales Associate', '$39591.28', 'sapien non mi integer ac neque duis bibendum morbi non quam nec dui luctus', 6);
 
 insert into managers (role_id) values
- (15),
+(15),
 (20),
- (10),
- (19),
+(10),
+(19),
 (12),
 (19),
 (16),

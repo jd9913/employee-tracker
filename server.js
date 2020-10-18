@@ -26,8 +26,8 @@ const connection = mysql.createConnection({
 
   host: 'localhost',
   port: `${PORT}`,
-  user: 'jd9913',
-  password: 'Jmd#6701',
+  user: 'root',
+  password: 'password',
   database: 'tracker'
 
 });
@@ -51,9 +51,6 @@ afterConnection = () => {
   });
 
 };
-
-
-
 
 
 
