@@ -1,20 +1,20 @@
 
-const inputCheck = require('./utils/inputCheck');
+
 const connection = require('./utils/connection');
 const inquirer = require('inquirer');
 const table = require('console.table');
-const db = require('./utils/connection');
+
 const figlet = require('figlet');
 
 
 connection.connect((err) => {
   if (err) throw err;
   console.log(figlet.textSync('Tracking Employees'));
+  
+});
 
-  startApp();
-})
 
-const startApp = () => {
+const userPrompt= () => {
   inquirer
     .prompt([
       {
@@ -75,7 +75,7 @@ const startApp = () => {
 const viewAllEmp = () => {
   const query = `SELECT employee.id, employee.first_name, employee.last_name, role.role_title, department.dept_name AS 'department', role.salary FROM  employee, role, department WHERE department.id=role.department_id AND role.id=employee.role_id ORDER BY employee.id;`
 
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     console.log("Current Employees:");
     console.table(res);
@@ -87,7 +87,7 @@ const viewAllRole = () => {
   const query = `SELECT role.id, role.role_title, department.dept_name AS department FROM role INNER JOIN department ON role.dept_id=department.id`;
 
   console.log('Employee roles');
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     res.forEach((role) => {
       console.log(role.role_title);
@@ -98,7 +98,7 @@ const viewAllRole = () => {
 
 const viewAllDept = () => {
   const query = `SELECT department.id AS id, department.dept_name AS department FROM department`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
 
     console.log("All Departments")
@@ -109,7 +109,7 @@ const viewAllDept = () => {
 
 const viewEmpbyDept = () => {
   const query = `SELECT employee.first_name, employee.last_name, department.dept_name AS department FROM employee LEFT JOIN role ON employee.role_id=role.id LEFT JOIN department ON role.department_id=department.id`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     console.log("Employees by Department");
     console.table(res);
@@ -159,7 +159,7 @@ const addEmp = () => {
     ]).then((answer) => {
       const name = [answer.fName, answer.lName];
       const query = `SELECT role.id, role.role_title, FROM role`;
-      connection.promise().query(query, (err, res) => {
+      connection.query(query, (err, res) => {
         if (err) throw err;
         const roles = res.map(({ id, role_title }) => ({ name: role_title, value: id }));
         inquirer.prompt([
@@ -173,7 +173,7 @@ const addEmp = () => {
           const role = roleAns.role;
           name.push(role);
           const query = `SELECT*FROM employee`;
-          connection.promise().query(query, (err, res) => {
+          connection.query(query, (err, res) => {
             if (err) throw err;
             const manager = res.map(({ id, first_name, last_name }) => ({ name: first_name + " " + last_name, value: id }));
             inquirer.prompt([
@@ -203,7 +203,7 @@ const addEmp = () => {
 
 const addRole = () => {
   const query = `SELECT * FROM department`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     let deptname = [];
     res.forEach((department) => {
@@ -252,7 +252,7 @@ const addRole = () => {
 
           let newRole = [role, answer.salary, deptId];
 
-          connection.promise().query(query, newRole, (err) => {
+          connection.query(query, newRole, (err) => {
             if (err) throw err;
             console.log('role created');
             viewAllRole();
@@ -282,14 +282,14 @@ const addDept = () => {
 
 const updateEmpRole = () => {
   const query = `SELECT employee.id, employee.first_name, employee.last_name, role.id AS "role_id" FROM employee, role, department WHERE department.id=role.department_id AND role.id=employee.role_id`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     let empArray = [];
     res.forEach((employee) => {
       empArray.push(`${employee.first_name} ${employee.last_name}`);
     });
     const query = `SELECT role.id, role.role_title FROM role`;
-    connection.promise().query(query, (err, res) => {
+    connection.query(query, (err, res) => {
       if (err) throw err;
       let roleArray = [];
       res.forEach((role) => {
@@ -335,7 +335,7 @@ const updateEmpRole = () => {
 
 const updateMgr = () => {
   const query = `SELECT employee.id, employee.first_name, employee.last_name, employee.manager_id FROM employee`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     let empArray = [];
     res.forEach((employee) => {
       empArray.push(`${employee.first_name}${employee.last_name}`);
@@ -352,7 +352,7 @@ const updateMgr = () => {
           name: 'mgr',
           type: 'list',
           message: 'choose the name of the new manager',
-          choices: empArray;
+          choices: empArray
         }
       ]).then((answer) => {
         let empId = "";
@@ -382,9 +382,9 @@ const updateMgr = () => {
 const remEmp = () => {
 
   const query = `SELECT employee.id, employee.first_name, employee.last_name FROM employee`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
-    let empArray = []:
+    let empArray = [];
       res.forEach((employee) => {
         empArray.push(`${employee.first_name} ${employee.last_name}`);
       });
@@ -416,7 +416,7 @@ const remEmp = () => {
 
 const remRole = () => {
   const query = `SELECT role.id, role.role_title FROM role`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     let roleArray = [];
     res.forEach((role) => {
@@ -438,7 +438,7 @@ const remRole = () => {
         }
       });
     const query = `DELETE FROM role WHERE role.id=?`;
-    connection.promise().query(query, [roleId], (err) => {
+    connection.query(query, [roleId], (err) => {
       if (err) throw err;
       console.log('role removed');
       viewAllRole();
@@ -448,7 +448,7 @@ const remRole = () => {
 
 const remDept = () => {
   const query = `SELECT department.id, department.dept_name FROM department`;
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     let deptArray = [];
 
@@ -472,7 +472,7 @@ const remDept = () => {
         });
 
         const query = `DELETE FROM department WHERE department.id=?`;
-        connection.promise().query(query, [deptId], (err) => {
+        connection.query(query, [deptId], (err) => {
           if (err) throw err;
           console.log('department removed')
         });
@@ -480,3 +480,4 @@ const remDept = () => {
       });
   });
 };
+userPrompt();

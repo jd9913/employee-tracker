@@ -1,6 +1,6 @@
 
 
-insert into departments (dept_name)
+insert into department (dept_name)
 values ('Business Development'),
  ('Product Management'),
  ('Human Resources'),
@@ -13,7 +13,7 @@ values ('Business Development'),
  ('Planning');
 
 
-insert into roles (role_title, salary, description, department_id)
+insert into role (role_title, salary, description, department_id)
  values
  ('Manager', '$86354.50', 'aliquam sit amet diam in magna bibendum imperdiet nullam orci pede venenatis', 10),
 
@@ -37,30 +37,9 @@ insert into roles (role_title, salary, description, department_id)
  ('Electrical Engineer', '$62784.13', 'vivamus in felis eu sapien cursus vestibulum proin eu mi nulla ac enim in', 1),
  ('Senior Sales Associate', '$39591.28', 'sapien non mi integer ac neque duis bibendum morbi non quam nec dui luctus', 6);
 
-insert into managers (role_id) values
-(15),
-(20),
-(10),
-(19),
-(12),
-(19),
-(16),
-(6),
-(13),
-(12),
-(1),
-(7),
-(10),
-(15),
-(1),
-(18),
-(19),
-(6);
 
 
-
-
-insert into employees (first_name, last_name, role_id, manager_id)
+insert into employee (first_name, last_name, role_id, manager_id)
  values 
  ('Charlotte', 'Schops', 4, 8),
  ('Benoite', 'Mewis', 12, 8),
