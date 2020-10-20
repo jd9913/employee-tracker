@@ -41,7 +41,9 @@ const userPrompt= () => {
     ]).then((answer) => {
       switch (answer.choice) {
         case "View All Employees":
-          return viewAllEmp();
+           return viewAllEmp();
+
+           break;
         case "View All Roles":
           return viewAllRole();
         case "View All Departments":
@@ -75,21 +77,23 @@ const userPrompt= () => {
 const viewAllEmp = () => {
   const query = `SELECT employee.id, employee.first_name, employee.last_name, role.role_title, department.dept_name AS 'department', role.salary FROM  employee, role, department WHERE department.id=role.department_id AND role.id=employee.role_id ORDER BY employee.id;`
 
-  connection.query(query, (err, res) => {
+  connection.promise().query(query, (err, res) => {
     if (err) throw err;
     console.log("Current Employees:");
     console.table(res);
     userPrompt();
   });
+  
 };
 
 const viewAllRole = () => {
-  const query = `SELECT role.id, role.role_title, department.dept_name AS department FROM role INNER JOIN department ON role.dept_id=department.id`;
+  const query = `SELECT role.id, role.role_title, department.dept_name AS department FROM role INNER JOIN department ON role.department_id=department.id`;
 
-  console.log('Employee roles');
+  console.log('Employee roles:');
   connection.query(query, (err, res) => {
     if (err) throw err;
     res.forEach((role) => {
+      console.log(res);
       console.log(role.role_title);
     });
     userPrompt();
