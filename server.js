@@ -77,7 +77,7 @@ const userPrompt= () => {
 const viewAllEmp = () => {
   const query = `SELECT employee.id, employee.first_name, employee.last_name, role.role_title, department.dept_name AS 'department', role.salary FROM  employee, role, department WHERE department.id=role.department_id AND role.id=employee.role_id ORDER BY employee.id;`
 
-  connection.promise().query(query, (err, res) => {
+  connection.query(query, (err, res) => {
     if (err) throw err;
     console.log("Current Employees:");
     console.table(res);
